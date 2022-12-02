@@ -7,5 +7,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>D:\PRibadi\Tes\publish_frontend\frontend</_PublishTargetUrl>
+    <History>True|2022-12-02T12:12:32.0471854Z;</History>
+    <LastFailureDetails />
   </PropertyGroup>
 </Project>
