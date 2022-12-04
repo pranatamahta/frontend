@@ -10,24 +10,24 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Master BPKB</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    @*<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                        </ul>
-                    </div>*@
-                </div>
-            </nav>
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Master BPKB</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                @*<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </li>
+                </ul>
+                </div>*@
+            </div>
+        </nav>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -36,10 +36,10 @@
     </div>
 
     <footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2022 - Frontend @*- <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>*@
-            </div>
-        </footer>
+        <div class="container">
+            &copy; 2022 - Frontend @*- <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>*@
+        </div>
+    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -51,7 +51,8 @@
                 crossOrigin: true,
                 cache: false,
                 type: "GET",
-                url: "https://localhost:44333/api/",
+                url: "http://localhost:9191/api",
+                //url: "https://localhost:44333/api",
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json",
@@ -65,15 +66,18 @@
                 contentType: "application/json",
                 success: function (data) {
                     var jsonData = JSON.parse(JSON.stringify(data));
-                    $('#lp').html("");
-                    $('#lp').append('<option selected>Select Lokasi Penyimpanan</option>');
-                    for (var i = 0; i < jsonData.length; i++) {
-                        var result = jsonData[i];
-
-                        $('#lp').append('<option  value="' + result.location_id + '">' + result.location_name +
-                            '</option>');
+                    if (jsonData.data != null) {
+                        //alert (jsonData);
+                        $('#lp').html("");
+                        $('#lp').append('<option selected>Select Lokasi Penyimpanan</option>');
+                        for (var i = 0; i < jsonData.data.length; i++) {
+                            var result = jsonData.data[i];
+                            $('#lp').append('<option  value=' + result.location_id + '>' + result.location_name +
+                                '</option>');
+                        }
+                    }else{
+                        alert(data.message);
                     }
-
 
                 }
             });
@@ -100,19 +104,20 @@
                 crossOrigin: true,
                 cache: false,
                 type: "POST",
-                url: "https://localhost:44333/api/save",
+                url: "http://localhost:9191/api/save",
+                //url: "https://localhost:44333/api/save",
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json",
                     "Access-Control-Allow-Origin": "*"
                 },
-               
+
                 data: JSON.stringify(data),
-                
+
                 contentType: "application/json",
                 success: function (data) {
-                    
-                    alert("Data Berhasil di simpan");
+
+                    alert(data.message + " di save ke database"+JSON.stringify(data.data));
                 }
             });
         });
