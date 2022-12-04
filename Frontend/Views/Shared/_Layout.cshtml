@@ -75,7 +75,7 @@
                             $('#lp').append('<option  value=' + result.location_id + '>' + result.location_name +
                                 '</option>');
                         }
-                    }else{
+                    } else {
                         alert(data.message);
                     }
 
@@ -87,6 +87,7 @@
     <script>
         $("#bsave").click(function () {
             //alert("butto berhasil di click");
+            $("#bsave").html("Loading...");
             var data = {
                 "agreement_number": $("#vagn").val(),
                 "bpkb_no": $("#vnobpkb").val(),
@@ -98,7 +99,7 @@
                 "police_no": $("#vnopolis").val(),
                 "bpkb_date_in": $("#vtglbpkbin").val()
             };
-            //alert("jquery jalan");
+            //alert(JSON.stringify(data));
             $.ajax({
                 crossDomain: true,
                 crossOrigin: true,
@@ -111,15 +112,23 @@
                     "Accept": "application/json",
                     "Access-Control-Allow-Origin": "*"
                 },
-
+                error: function (event, xhr) {
+                    $("#bsave").html("Save");
+                    alert("Please fill the form!");
+                },
                 data: JSON.stringify(data),
 
                 contentType: "application/json",
                 success: function (data) {
 
-                    alert(data.message + " di save ke database"+JSON.stringify(data.data));
+                    alert(data.message + " di save ke database" + JSON.stringify(data.data));
+                    $("#bsave").html("Save");
                 }
             });
+        });
+
+        $('#bcancel').click(function () {
+            $('#configform')[0].reset();
         });
 
     </script>
